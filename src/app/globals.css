@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ct-container {
+  @apply mx-auto max-w-[1240px] px-6;
+}
+
+html *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: transparent;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #aaa;
+}
+
+html *::-webkit-scrollbar-thumb:hover {
+  background-color: #4e4e4e;
+}
+
+html *::-webkit-scrollbar-track {
+  background-color: transparent;
+}
