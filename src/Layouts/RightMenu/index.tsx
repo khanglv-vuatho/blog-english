@@ -49,7 +49,7 @@ const RightMenu = () => {
     <div className='flex flex-col gap-20'>
       <div className='flex flex-col items-center gap-10'>
         <TitleLine title='ABOUT ME' />
-        <Avatar src='/images/avatar.jpg' alt='avatar' className='flex h-[240px] w-[240px] flex-shrink-0' />
+        <Avatar src='/avatar.jpeg' alt='avatar' className='flex h-[240px] w-[240px] flex-shrink-0' />
         <p className='text-center'>I am a passionate IELTS teacher dedicated to helping students achieve their dream scores with engaging and effective lessons.</p>
       </div>
       <div className='flex flex-col items-center gap-6'>
@@ -77,9 +77,9 @@ const RightMenu = () => {
           ))}
         </div>
       </div>
-      <div className='flex flex-col items-center gap-6'>
+      {/* <div className='flex flex-col items-center gap-6'>
         <TitleLine title='POPULAR POST' />
-      </div>
+      </div> */}
     </div>
   )
 }

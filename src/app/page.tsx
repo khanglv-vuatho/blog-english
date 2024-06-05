@@ -1,35 +1,49 @@
+'use client'
+
+import moment from 'moment'
 import Article from '@/components/Article'
 import TitleLine from '@/components/TitleLine'
+import { ToastComponent } from '@/components/ToastComponent'
+import { TYPESFROM } from '@/constants'
+import instance from '@/services/axiosConfig'
 import { TArticle } from '@/type'
+import { useEffect, useState } from 'react'
+import { trasnformDataArticles } from '@/utils'
 
 export default function Home() {
-  const listArticles: TArticle[] = [
-    {
-      thumb: '/demo2.jpeg',
-      title: 'The Church of God spreads true hope and happiness to all people in the world, following God’s words and example of love',
-      url: '/articles/category/tag/detail-blog',
-      description:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo corrupti officiis qui, obcaecati quibusdam voluptas unde repellendus? Eum dolorum voluptatum fugit soluta, iste aut, modi voluptates enim ut architecto qui!',
-      tag: 'Test',
-      time: '12/2/2023',
-      urlTag: '/articles/test'
-    },
-    {
-      thumb: '/demo2.jpeg',
-      title: 'The Church of God spreads true hope and happiness to all people in the world, following God’s words and example of love',
-      url: '/articles/category/tag/detail-blog',
-      description:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo corrupti officiis qui, obcaecati quibusdam voluptas unde repellendus? Eum dolorum voluptatum fugit soluta, iste aut, modi voluptates enim ut architecto qui!',
-      tag: 'Test',
-      time: '12/2/2023',
-      urlTag: '/articles/test'
+  const [articles, setArticles] = useState<TArticle[]>([])
+  const [onFetching, setOnFetching] = useState<boolean>(false)
+
+  const handleGetAllArticles = async () => {
+    try {
+      const data: any = await instance.get('/v1/posts', {
+        params: {
+          type: TYPESFROM.WEB
+        }
+      })
+
+      setArticles(trasnformDataArticles(data))
+    } catch (error: any) {
+      console.log(error)
+      ToastComponent({ type: 'error', message: error?.response.data.message })
+    } finally {
+      setOnFetching(false)
     }
-  ]
+  }
+
+  useEffect(() => {
+    onFetching && handleGetAllArticles()
+  }, [onFetching])
+
+  useEffect(() => {
+    setOnFetching(true)
+  }, [])
+
   return (
     <div className='flex flex-col gap-6 lg:gap-10'>
       <TitleLine title='Popular Posts' />
       <div className='flex flex-col gap-6 lg:gap-10'>
-        {listArticles.map((item) => (
+        {articles.map((item) => (
           <Article key={item.url} {...item} />
         ))}
       </div>

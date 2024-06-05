@@ -14,9 +14,9 @@ export const ListBreadcrumbs = memo(({ list }: { list: TBreadcrumbWithUrl[] }) =
         list: 'gap-1 lg:gap-4 flex-nowrap'
       }}
       itemClasses={{
-        item: 'text-lg',
+        item: 'text-sm',
         base: 'gap-1 lg:gap-4',
-        separator: 'text-lg text-[#C9C9C9]'
+        separator: 'text-sm text-[#C9C9C9]'
       }}
     >
       {list.map((item) => (

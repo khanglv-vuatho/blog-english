@@ -3,17 +3,9 @@ import { DefaultColors } from 'tailwindcss/types/generated/colors'
 
 type TColorsConfig = {
   'primary-blue': '#3748A0'
-  'primary-blue-2': '#F1F6FF'
-  'primary-blue-3': '#327EEE'
-  'base-black': '#5A9DFF'
-  'base-black-1': '#282828'
-  'base-gray': '#F8F8F8'
-  'base-gray-2': '#E1E1E1'
-  'base-drak-gray': '#969696'
-  'primary-red': '#FF4343'
-  'primary-green': '#17D641'
-  'primary-orange': '#FF8F34'
-  'primary-yellow': '#FCB813'
+  'primary-blue-1': '#bac1c4'
+  'primary-green': '#83b6b3'
+  'primary-yellow': '#eedaad'
   danger: '#FF4343'
   success: '#17D641'
 } & DefaultColors
@@ -21,19 +13,11 @@ type TColorsConfig = {
 export const colorsConfig: TColorsConfig = {
   ...colorsTailwind,
   'primary-blue': '#3748A0',
-  'primary-blue-2': '#F1F6FF',
-  'primary-blue-3': '#327EEE',
-  'base-black': '#5A9DFF',
-  'base-black-1': '#282828',
-  'base-gray': '#F8F8F8',
-  'base-gray-2': '#E1E1E1',
-  'base-drak-gray': '#969696',
-  'primary-red': '#FF4343',
-  'primary-green': '#17D641',
-  'primary-orange': '#FF8F34',
-  'primary-yellow': '#FCB813',
+  'primary-blue-1': '#bac1c4',
+  'primary-green': '#83b6b3',
+  'primary-yellow': '#eedaad',
   danger: '#FF4343',
-  success: '#17D641',
+  success: '#17D641'
 }
 
 export const backgroudImageConfig = {}

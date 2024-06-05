@@ -1,6 +1,6 @@
 export type TPost = { thumb: string } & TLink
 export type TLink = { title: string; url: string }
-export type TAccordionLink = { title: string; url: string; children?: TLink[] }[]
+export type TAccordionLink = { title: string; url: string; children?: TLink[] }
 export type TArticle = {} & TPost & {
     description: string
     tag: string

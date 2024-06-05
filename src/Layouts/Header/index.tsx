@@ -2,15 +2,17 @@
 
 import Link from 'next/link'
 
-import { Button, Navbar } from '@nextui-org/react'
-import { ArrowDown2, HambergerMenu } from 'iconsax-react'
-import styles from './index.module.scss'
-import { useEffect, useState } from 'react'
 import DropDownMenu from '@/components/Dropdown'
-import { TAccordionLink } from '@/type'
+import { TYPESFROM } from '@/constants'
 import { AccordionLink } from '@/lib/ui/accordion'
 import instance from '@/services/axiosConfig'
-import { TYPESDESTROY, TYPESFROM } from '@/constants'
+import { TAccordionLink } from '@/type'
+import { Button, Navbar } from '@nextui-org/react'
+import { ArrowDown2, HambergerMenu } from 'iconsax-react'
+import { useEffect, useState } from 'react'
+import styles from './index.module.scss'
+import { usePathname } from 'next/navigation'
+import { twMerge } from 'tailwind-merge'
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -39,10 +41,6 @@ function Header() {
     setOnFetching(true)
   }, [])
 
-  useEffect(() => {
-    console.log({ menuListData })
-  }, [menuListData])
-
   return (
     <Navbar
       shouldHideOnScroll
@@ -56,14 +54,14 @@ function Header() {
           <p className='font-bold'>IELTS TRIS</p>
         </Link>
         <div className='hidden lg:block'>
-          <RenderListMenu menuList={menuListData as any} />
+          <RenderListMenu setIsOpen={setIsOpen} menuList={menuListData as any} />
         </div>
         <Button onPress={() => setIsOpen(!isOpen)} isIconOnly className='flex items-center justify-center bg-transparent hover:bg-[#eee] lg:hidden'>
           <HambergerMenu />
         </Button>
       </div>
       <DropDownMenu isOpen={isOpen} onClose={() => setIsOpen(false)} className='h-full bg-white' direction='right'>
-        <AccordionLink data={menuListData as any} />
+        <AccordionLink data={menuListData as any} onClose={() => setIsOpen(false)} />
       </DropDownMenu>
     </Navbar>
   )
@@ -71,20 +69,24 @@ function Header() {
 
 export default Header
 
-const RenderListMenu = ({ menuList }: { menuList: TAccordionLink }) => {
+const RenderListMenu = ({ menuList, setIsOpen }: { menuList: TAccordionLink[]; setIsOpen: (isOpen: boolean) => void }) => {
+  const pathName = usePathname()
+
   return (
     <div className='flex gap-8'>
-      {menuList.map((menu, index) => (
-        <ItemMenuList menu={menu} key={index} />
-      ))}
+      {menuList.map((menu, index) => {
+        console.log({ menuUrl: menu.url })
+        const active = menu.url === pathName
+        return <ItemMenuList setIsOpen={setIsOpen} active={active} menu={menu} key={index} />
+      })}
     </div>
   )
 }
 
-const ItemMenuList = ({ menu }: { menu: any }) => {
+const ItemMenuList = ({ menu, setIsOpen, active }: { menu: TAccordionLink; setIsOpen: (isOpen: boolean) => void; active: boolean }) => {
   return (
     <div className={styles.list}>
-      <Link className={styles.listTitle} href={menu.url}>
+      <Link className={twMerge(styles.menuItem, active && 'text-primary-green')} href={menu.url} onClick={() => setIsOpen(false)}>
         {menu.title}
       </Link>
       {menu?.children && (
@@ -92,17 +94,15 @@ const ItemMenuList = ({ menu }: { menu: any }) => {
           <ArrowDown2 size={16} />
         </div>
       )}
-      {menu?.children && <div className={styles.lisItem}>{menu?.children.map((item: any) => <ItemMenu handleClose={() => {}} menuChildren={item} key={item.id} />)}</div>}
+      {menu?.children && <div className={styles.lisItem}>{menu?.children.map((item, index) => <ItemMenu handleClose={() => setIsOpen(false)} menuChildren={item} key={index} />)}</div>}
     </div>
   )
 }
 
 const ItemMenu = ({ handleClose, menuChildren }: { handleClose: () => void; menuChildren: any }) => {
   return (
-    <Link href={menuChildren.url}>
-      <div className={styles.menuItem} onClick={handleClose}>
-        {menuChildren.title}
-      </div>
+    <Link href={menuChildren.url} onClick={handleClose}>
+      <div className={styles.menuItem}>{menuChildren.title}</div>
     </Link>
   )
 }
