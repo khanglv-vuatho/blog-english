@@ -2,7 +2,9 @@ import { FacebookIcon, ZaloIcon } from '@/components/Icons'
 import ImageFallback from '@/components/ImageFallback'
 import SocialIcon from '@/components/SocialIcon'
 import TitleLine from '@/components/TitleLine'
+import TypingLetters from '@/components/TypingLetters'
 import { SocialNetwork, TPost } from '@/type'
+import { SplitString } from '@/utils'
 import { Avatar, Button } from '@nextui-org/react'
 import Link from 'next/link'
 
@@ -50,7 +52,9 @@ const RightMenu = () => {
       <div className='flex flex-col items-center gap-10'>
         <TitleLine title='ABOUT ME' />
         <Avatar src='/avatar.jpeg' alt='avatar' className='flex h-[240px] w-[240px] flex-shrink-0' />
-        <p className='text-center'>I am a passionate IELTS teacher dedicated to helping students achieve their dream scores with engaging and effective lessons.</p>
+        <div className='text-center'>
+          <TypingLetters delay={0.005} words={SplitString('I am a passionate IELTS teacher dedicated to helping students achieve their dream scores with engaging and effective lessons.')} />
+        </div>
       </div>
       <div className='flex flex-col items-center gap-6'>
         <TitleLine title='FOLLOW US' />

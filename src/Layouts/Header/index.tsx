@@ -13,6 +13,9 @@ import { useEffect, useState } from 'react'
 import styles from './index.module.scss'
 import { usePathname } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
+import { motion } from 'framer-motion'
+import TypingLetters from '@/components/TypingLetters'
+import { SplitString } from '@/utils'
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -51,7 +54,9 @@ function Header() {
     >
       <div className='ct-container flex h-[60px] w-full items-center justify-between px-6'>
         <Link href={'/'}>
-          <p className='font-bold'>IELTS TRIS</p>
+          <div className='font-bold'>
+            <TypingLetters words={SplitString('IELTS TRIS')} />
+          </div>
         </Link>
         <div className='hidden lg:block'>
           <RenderListMenu setIsOpen={setIsOpen} menuList={menuListData as any} />
@@ -75,17 +80,16 @@ const RenderListMenu = ({ menuList, setIsOpen }: { menuList: TAccordionLink[]; s
   return (
     <div className='flex gap-8'>
       {menuList.map((menu, index) => {
-        console.log({ menuUrl: menu.url })
         const active = menu.url === pathName
-        return <ItemMenuList setIsOpen={setIsOpen} active={active} menu={menu} key={index} />
+        return <ItemMenuList setIsOpen={setIsOpen} active={active} menu={menu} index={index} key={index} />
       })}
     </div>
   )
 }
 
-const ItemMenuList = ({ menu, setIsOpen, active }: { menu: TAccordionLink; setIsOpen: (isOpen: boolean) => void; active: boolean }) => {
+const ItemMenuList = ({ menu, setIsOpen, active, index = 1 }: { menu: TAccordionLink; setIsOpen: (isOpen: boolean) => void; active: boolean; index?: number }) => {
   return (
-    <div className={styles.list}>
+    <motion.div initial={{ x: 80 * index, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.2, delay: 0.5 * ((index + 1) * 0.2) }} className={styles.list}>
       <Link className={twMerge(styles.menuItem, active && 'text-primary-green')} href={menu.url} onClick={() => setIsOpen(false)}>
         {menu.title}
       </Link>
@@ -95,7 +99,7 @@ const ItemMenuList = ({ menu, setIsOpen, active }: { menu: TAccordionLink; setIs
         </div>
       )}
       {menu?.children && <div className={styles.lisItem}>{menu?.children.map((item, index) => <ItemMenu handleClose={() => setIsOpen(false)} menuChildren={item} key={index} />)}</div>}
-    </div>
+    </motion.div>
   )
 }
 

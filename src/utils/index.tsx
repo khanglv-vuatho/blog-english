@@ -1,13 +1,13 @@
 import moment from 'moment'
 
-export const normalizeKeyword = (keyword: string) => {
+const normalizeKeyword = (keyword: string) => {
   return (keyword as string)
     .normalize('NFD')
     .toLowerCase()
     .replace(/[\u0300-\u036f\s]/g, '')
     .replace('đ', 'd')
 }
-export const trasnformDataArticles = (data: any) => {
+const trasnformDataArticles = (data: any) => {
   const newData = data.map((item: any) => {
     return {
       thumb: item?.thumbnail,
@@ -22,3 +22,8 @@ export const trasnformDataArticles = (data: any) => {
   })
   return newData
 }
+
+const SplitString = (words: string) => {
+  return words.split('')
+}
+export { SplitString, trasnformDataArticles, normalizeKeyword }
